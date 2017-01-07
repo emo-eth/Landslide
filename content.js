@@ -2,17 +2,27 @@
 
 var elements = document.getElementsByTagName('*');
 
-var res = [];
+var title_res = [];
 var punctuation = [',', ' ', '\\.', '\\?', '!'];
-let e = 'president(( |-)elect)?( donald)?( j.?)? trump';
+var e = 'president(( |-)elect)?( donald)?( j.?)? trump';
 var p, match, re;
-  for (var i = 0; i < punctuation.length; i++) {
-    p = punctuation[i];
-    match = e + p;
-    re = new RegExp(match, 'gi');
-    res.push(re);
-  }
+var epistring = 'President Trump, who lost the popular vote by nearly 3 million votes';
+var namestring = 'Donald Trump, who lost the popular vote by nearly 3 million votes';
 
+for (var i = 0; i < punctuation.length; i++) {
+  p = punctuation[i];
+  match = e + p;
+  re = new RegExp(match, 'gi');
+  title_res.push(re);
+}
+var name_res = [];
+e = 'donald trump';
+for (var i = 0; i < punctuation.length; i++) {
+  p = punctuation[i];
+  match = e + p;
+  re = new RegExp(match, 'gi');
+  name_res.push(re);
+}
 
 for (var i = 0; i < elements.length; i++) {
   var element = elements[i];
@@ -25,11 +35,18 @@ for (var i = 0; i < elements.length; i++) {
       var text = node.nodeValue;
       // comma comes first so it isn't injected again after a space
       // the space is handled separately since it also needs a comma
-      updated = text.replace(res[0], 'President Trump, who lost the popular vote by nearly 3 million votes,');
-      updated = text.replace(res[1], 'President Trump, who lost the popular vote by nearly 3 million votes, ');
+      updated = text.replace(title_res[0], epistring + ',');
+      updated = updated.replace(title_res[1], epistring + ', ');
+      updated = updated.replace(name_res[0], namestring + ',');
+      updated = updated.replace(name_res[1], namestring + ', ');
       for (var k = 2; k < punctuation.length; k++) {
         p = punctuation[k];
-        updated = updated.replace(res[k], 'President Trump, who lost the popular vote by nearly 3 million votes' + p);
+        if (k === 2 || k === 3) {
+          p = p.slice(1,2);
+        }
+        updated = updated.replace(title_res[k], epistring + p);
+        updated = updated.replace(name_res[k], namestring + p);
+
       }
 
       if (updated !== text) {
