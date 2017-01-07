@@ -4,7 +4,7 @@ var elements = document.getElementsByTagName('*');
 
 var res = [];
 var punctuation = [',', ' ', '\\.', '\\?', '!'];
-let e = 'president(( |-)elect)?( donald)? trump';
+let e = 'president(( |-)elect)?( donald)?( j.?)? trump';
 var p, match, re;
   for (var i = 0; i < punctuation.length; i++) {
     p = punctuation[i];
