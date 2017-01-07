@@ -3,8 +3,10 @@
 var elements = document.getElementsByTagName('*');
 
 var title_res = [];
+var name_res = [];
 var punctuation = [',', ' ', '\\.', '\\?', '!'];
 var e = 'president(( |-)elect)?( donald)?( j.?)? trump';
+var e2 = 'donald( j.?)? trump';
 var p, match, re;
 var epistring = 'President Trump, who lost the popular vote by nearly 3 million votes';
 var namestring = 'Donald Trump, who lost the popular vote by nearly 3 million votes';
@@ -14,15 +16,12 @@ for (var i = 0; i < punctuation.length; i++) {
   match = e + p;
   re = new RegExp(match, 'gi');
   title_res.push(re);
-}
-var name_res = [];
-e = 'donald trump';
-for (var i = 0; i < punctuation.length; i++) {
-  p = punctuation[i];
-  match = e + p;
+  match = e2 + p;
   re = new RegExp(match, 'gi');
   name_res.push(re);
 }
+
+
 
 for (var i = 0; i < elements.length; i++) {
   var element = elements[i];
@@ -42,8 +41,9 @@ for (var i = 0; i < elements.length; i++) {
       for (var k = 2; k < punctuation.length; k++) {
         p = punctuation[k];
         if (k === 2 || k === 3) {
-          p = p.slice(1,2);
+          p = p.slice(1, 2);
         }
+        // alert(p)
         updated = updated.replace(title_res[k], epistring + p);
         updated = updated.replace(name_res[k], namestring + p);
 
